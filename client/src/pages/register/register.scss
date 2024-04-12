@@ -1,0 +1,238 @@
+.register {
+  height: 100vh;
+  background-color: #0f6ed9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .card {
+    width: 70%;
+    display: flex;
+    background-color: white;
+    min-height: 600px;
+    overflow: hidden;
+    -webkit-box-shadow: -10px -10px 25px -10px rgba(0, 0, 0, 0.38), 10px 10px 25px -10px rgba(0, 0, 0, 0.38);
+    -moz-box-shadow: -10px -10px 25px -10px rgba(0, 0, 0, 0.38), 10px 10px 25px -10px rgba(0, 0, 0, 0.38);
+    box-shadow: -10px -10px 25px -10px rgba(0, 0, 0, 0.38), 10px 10px 25px -10px rgba(0, 0, 0, 0.38);
+
+    .left {
+      flex: 1;
+      background-color: #0c72e1;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      color: white;
+      justify-content: center;
+      align-items: center;
+
+      .people {
+        width: 310.46px;
+        height: 444.55px;
+        left: 260.86px;
+        top: 290.13px;
+      }
+
+      .account {
+        font-family: 'Poppins';
+        font-size: 15px;
+      }
+
+      .btn {
+        text-decoration: underline;
+      }
+
+      h1 {
+        font-size: 30px;
+        text-align: center;
+        padding: 0;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%;
+        letter-spacing: -0.02em;
+      }
+      
+      p {
+      }
+
+      span {
+        font-size: 14px;
+      }
+      
+      button {
+        font-family: 'Poppins';
+        font-weight: 600;
+        font-size: 15px;
+        margin-left: 5px;
+        border: none;
+        text-decoration: none;
+        background-color: transparent;
+        color: white;
+        cursor: pointer;
+      }
+    }
+
+    .right {
+      flex: 1;
+      padding: 70px 100px 70px 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+      justify-content: center;
+
+      .identity {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .logo {
+          height: 50px;
+          width: 50px;
+        }
+
+        .pastebook {
+          margin-left: 15px;
+
+          .paste {
+            color: #104489;
+            font-family: 'Poppins', sans-serif;
+            font-style: normal;
+            font-size: 25px;
+          }
+
+          .book {
+            color: #d84343;
+            font-family: 'Poppins', sans-serif;
+            font-style: normal;
+            font-size: 25px;
+          }
+        }
+      }
+
+      .create {
+        color: black;
+        font-family: 'Poppins', sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 25px;
+        line-height: 140%;
+        letter-spacing: -0.02em;
+      }
+
+      h1 {
+      color: #555;
+      }
+      
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        .errorDiv {
+          .mobileNumber, .email {
+            width: 95%;
+          }
+        }
+
+        .error {
+          font-family: 'Poppins';
+          font-size: 12px;
+          color: red;
+          margin-top: 5px;
+        }
+
+        .names {
+          display: flex;
+          flex-direction: row;
+          gap: 30px;
+
+          .firstName {
+            flex: 1;
+          }
+
+          .lastName {
+            flex: 1;
+          }
+        }
+
+        .passwords {
+          display: flex;
+          flex-direction: row;
+          gap: 30px;
+
+          .errorDiv {
+            flex: 1;
+            .password {
+              width: 90%;
+            }
+  
+            .confirmPassword {
+              width: 90%;
+            }
+          }
+        }
+
+        .others {
+          display: flex;
+          flex-direction: row;
+          gap: 30px;
+
+          .gender {
+            flex: 1;
+          }
+
+          .birthday {
+            flex: 1;
+          }
+
+          select {
+            font-family: 'Poppins';
+            font-size: 12px;
+            border: 1px solid lightgray;
+            border-radius: 7px;
+            padding: 5px 5px;
+          }
+        }
+        
+        input {
+          font-family: 'Poppins';
+          font-size: 12px;
+          border: 1px solid lightgray;
+          border-radius: 7px;
+          padding: 15px 10px;
+        }
+        
+        button {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 12px;
+          width: 50%;
+          padding: 10px;
+          border: none;
+          background-color: #007AFF;
+          border-radius: 5px;
+          color: white;
+          cursor: pointer;
+
+          .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #333;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear;
+          }
+          
+          @keyframes spin {
+            to {
+              transform: rotate(360deg);
+            }
+          }
+        }
+      }
+    }
+  }
+}
