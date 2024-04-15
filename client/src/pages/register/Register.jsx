@@ -19,6 +19,7 @@ const Register = () => {
     birthday: "",
     confirmPassword: "",
     mobileNumber: "",
+    bio: "",
   });
 
   const [err, setErr] = useState(null);

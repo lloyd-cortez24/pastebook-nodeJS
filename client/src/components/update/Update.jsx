@@ -8,15 +8,18 @@ export const Update = ({setOpenUpdate, user}) => {
     const [cover, setCover] = useState(null);
     const [profile, setProfile] = useState(null);
     const [texts, setTexts] = useState({
-        email: user.email,
         password: user.password,
-        name: user.name,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        gender: user.gender,
+        birthday: user.birthday,
+        mobileNumber: user.mobileNumber,
         city: user.city,
         website: user.website,
+        bio: user.bio,
     });
 
     const upload = async (file) => {
-        console.log(file)
         try {
           const formData = new FormData();
           formData.append("file", file);
@@ -45,8 +48,6 @@ export const Update = ({setOpenUpdate, user}) => {
 
     const handleClick = async (e) => {
         e.preventDefault();
-    
-        //TODO: find a better way to get image URL
         
         let coverUrl;
         let profileUrl;
@@ -62,87 +63,117 @@ export const Update = ({setOpenUpdate, user}) => {
   return (
     <div className="update">
       <div className="wrapper">
-        <h1>Update Your Profile</h1>
-        <form>
-          <div className="files">
-            <label htmlFor="cover">
-              <span>Cover Picture</span>
-              <div className="imgContainer">
-                <img
-                  src={
-                    cover
-                      ? URL.createObjectURL(cover)
-                      : "/upload/" + user.coverPic
-                  }
-                  alt=""
-                />
-                <CloudUploadIcon className="icon" />
-              </div>
-            </label>
+        <h1>Edit Profile</h1>
+        <div className="form-container">
+          <form>
+            <div className="files">
+              <label htmlFor="cover">
+                <span>Cover Picture</span>
+                <div className="imgContainer">
+                  <img
+                    src={
+                      cover
+                        ? URL.createObjectURL(cover)
+                        : "/upload/" + user.coverPic
+                    }
+                    alt=""
+                  />
+                  <CloudUploadIcon className="icon" />
+                </div>
+              </label>
+              <input
+                type="file"
+                id="cover"
+                style={{ display: "none" }}
+                onChange={(e) => setCover(e.target.files[0])}
+              />
+              <label htmlFor="profile">
+                <span>Profile Picture</span>
+                <div className="imgContainer">
+                  <img
+                    src={
+                      profile
+                        ? URL.createObjectURL(profile)
+                        : "/upload/" + user.profilePic
+                    }
+                    alt=""
+                  />
+                  <CloudUploadIcon className="icon" />
+                </div>
+              </label>
+              <input
+                type="file"
+                id="profile"
+                style={{ display: "none" }}
+                onChange={(e) => setProfile(e.target.files[0])}
+              />
+            </div>
+            {/* <label>Email</label>
             <input
-              type="file"
-              id="cover"
-              style={{ display: "none" }}
-              onChange={(e) => setCover(e.target.files[0])}
+              type="text"
+              value={texts.email}
+              name="email"
+              onChange={handleChange}
             />
-            <label htmlFor="profile">
-              <span>Profile Picture</span>
-              <div className="imgContainer">
-                <img
-                  src={
-                    profile
-                      ? URL.createObjectURL(profile)
-                      : "/upload/" + user.profilePic
-                  }
-                  alt=""
-                />
-                <CloudUploadIcon className="icon" />
-              </div>
-            </label>
+            <label>Password</label>
             <input
-              type="file"
-              id="profile"
-              style={{ display: "none" }}
-              onChange={(e) => setProfile(e.target.files[0])}
+              type="text"
+              value={texts.password}
+              name="password"
+              onChange={handleChange}
+            /> */}
+            <label>First Name</label>
+            <input
+              type="text"
+              value={texts.firstName}
+              name="firstName"
+              onChange={handleChange}
             />
-          </div>
-          <label>Email</label>
-          <input
-            type="text"
-            value={texts.email}
-            name="email"
-            onChange={handleChange}
-          />
-          <label>Password</label>
-          <input
-            type="text"
-            value={texts.password}
-            name="password"
-            onChange={handleChange}
-          />
-          <label>Name</label>
-          <input
-            type="text"
-            value={texts.name}
-            name="name"
-            onChange={handleChange}
-          />
-          <label>Country / City</label>
-          <input
-            type="text"
-            name="city"
-            value={texts.city}
-            onChange={handleChange}
-          />
-          <label>Website</label>
-          <input
-            type="text"
-            name="website"
-            value={texts.website}
-            onChange={handleChange}
-          />
-          <button onClick={handleClick}>Update</button>
-        </form>
+            <label>Last Name</label>
+            <input
+              type="text"
+              value={texts.lastName}
+              name="lastName"
+              onChange={handleChange}
+            />
+            <label>Gender</label>
+            <select className="gender" value={texts.gender} name="gender" onChange={handleChange}>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Others">Others</option>
+            </select>
+            <label>Birthday</label>
+            <input
+              type="date"
+              value={texts.birthday}
+              name="birthday"
+              max={new Date().toISOString().split('T')[0]}
+              onChange={handleChange}
+            />
+            <label>Mobile Number</label>
+            <input
+              type="text"
+              value={texts.mobileNumber}
+              name="mobileNumer"
+              onChange={handleChange}
+            />
+            <label>Country / City</label>
+            <input
+              type="text"
+              name="city"
+              value={texts.city}
+              onChange={handleChange}
+            />
+            <label>Website</label>
+            <input
+              type="text"
+              name="website"
+              value={texts.website}
+              onChange={handleChange}
+            />
+            <button onClick={handleClick}>Update</button>
+          </form>
+        </div>
         <button className="close" onClick={() => setOpenUpdate(false)}>
           close
         </button>

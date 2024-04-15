@@ -68,10 +68,7 @@ const Post = ({ post }) => {
             <img src={post.profilePic} alt="" />
             <div className="details">
               <Link
-                to={{
-                  pathname: `/${post.username}`,
-                  state: { userId: post.userId }
-                }}
+                to={`/profile/${post.userId}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <span className="name">{post.firstName} {post.lastName}</span>

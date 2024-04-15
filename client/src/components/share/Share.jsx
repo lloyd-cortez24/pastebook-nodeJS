@@ -2,10 +2,12 @@ import "./share.scss";
 import Image from "../../assets/img.png";
 import Map from "../../assets/map.png";
 import Friend from "../../assets/friend.png";
+import Placeholder from "../../assets/placeholder.png"
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import {
   useMutation,
+  useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
 import { makeRequest } from "../../axios";

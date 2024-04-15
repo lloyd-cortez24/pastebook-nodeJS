@@ -1,10 +1,9 @@
 import express from "express";
-import { getUser, getUserByUsername, updateUser } from "../controllers/user.js";
+import { getUser, updateUser } from "../controllers/user.js";
 
 const router = express.Router()
 
-// router.get("/find/:userId", getUser)
-router.get("/find/:username", getUserByUsername)
+router.get("/profile/:userId", getUser)
 router.put("/", updateUser)
 
 export default router

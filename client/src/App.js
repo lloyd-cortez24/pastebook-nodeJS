@@ -66,7 +66,7 @@ function App() {
           element: <Home />,
         },
         {
-          path: "/:username",
+          path: "/profile/:id",
           element: <Profile />,
         },
       ],
@@ -83,7 +83,7 @@ function App() {
 
   return (
     <div>
-      <RouterProvider router={router} />
+      <RouterProvider router={router} key={window.location.pathname} />
     </div>
   );
 }

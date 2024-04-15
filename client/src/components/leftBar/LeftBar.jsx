@@ -12,9 +12,12 @@ import Messages from "../../assets/10.png";
 import Tutorials from "../../assets/11.png";
 import Courses from "../../assets/12.png";
 import Fund from "../../assets/13.png";
+import Placeholder from "../../assets/placeholder.png"; 
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { makeRequest } from "../../axios";
 
 const LeftBar = () => {
 
@@ -24,10 +27,10 @@ const LeftBar = () => {
     <div className="leftBar">
       <div className="container">
         <div className="menu">
-          <Link to={`/${currentUser.username}`} style={{ textDecoration: "none" }}>
+          <Link to={`/profile/${currentUser.id}`} style={{ textDecoration: "none" }}>
             <div className="user">
               <img
-                src={currentUser.profilePic}
+                src={currentUser.profilePic || Placeholder}
                 alt=""
               />
               <span>{currentUser.firstName} {currentUser.lastName}</span>
