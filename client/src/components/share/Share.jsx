@@ -48,6 +48,10 @@ const Share = () => {
     setFile(null);
   };
 
+  const removeFile = () => {
+    setFile(null);
+  };
+
   return (
     <div className="share">
       <div className="container">
@@ -62,7 +66,12 @@ const Share = () => {
            />
           </div>
           <div className="right">
-            {file && <img className="file" alt="" src={URL.createObjectURL(file)} />}
+            {file && (
+              <div className="file-preview">
+                <img className="file" alt="" src={URL.createObjectURL(file)} />
+                <button className="remove-file" onClick={removeFile}>X</button>
+              </div>
+            )}
           </div>
         </div>
         <hr />

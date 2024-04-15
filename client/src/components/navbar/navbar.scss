@@ -25,6 +25,22 @@
         color: themed("logo");
       }
 
+      .pastebook {
+            .paste {
+              color: #104489;
+              font-family: 'Poppins', sans-serif;
+              font-style: normal;
+              font-size: 20px;
+            }
+
+            .book {
+              color: #d84343;
+              font-family: 'Poppins', sans-serif;
+              font-style: normal;
+              font-size: 20px;
+            }
+      }
+
       .search {
         display: flex;
         align-items: center;
@@ -64,6 +80,7 @@
         align-items: center;
         gap: 10px;
         font-weight: 500;
+        cursor: pointer;
 
         @include tablet{
           display: none;
@@ -75,9 +92,10 @@
           border-radius: 50%;
           object-fit: cover;
         }
+      }
 
-        span {
-        }
+      .notif, .moon {
+        cursor: pointer;
       }
     }
   }
