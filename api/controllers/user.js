@@ -45,3 +45,13 @@ export const updateUser = (req,res) => {
         );
     });
 }
+
+export const searchUsers = (req, res) => {
+    const searchTerm = req.query.q;
+    const q = "SELECT id, firstName, lastName, profilePic FROM users WHERE firstName LIKE ? OR lastName LIKE ?";
+    
+    db.query(q, [`%${searchTerm}%`, `%${searchTerm}%`], (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.json(data);
+    });
+};

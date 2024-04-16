@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./update.scss";
 import { makeRequest } from "../../axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -59,6 +59,15 @@ export const Update = ({setOpenUpdate, user}) => {
         setCover(null);
         setProfile(null);
     }
+
+    useEffect(() => {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+  
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }, []);
 
   return (
     <div className="update">

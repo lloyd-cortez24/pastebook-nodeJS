@@ -103,7 +103,7 @@ const Profile = () => {
                   </div>
                 </div>
                 {userId === currentUser.id ? (
-                  <button onClick={() => setOpenUpdate(true)}>Update</button>
+                  <button onClick={() => setOpenUpdate(true)}>Edit Profile</button>
                 ) : (
                   <button onClick={handleFollow}>
                     {relationshipData.includes(currentUser.id)

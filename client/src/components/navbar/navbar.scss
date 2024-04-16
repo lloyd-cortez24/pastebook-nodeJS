@@ -11,7 +11,7 @@
     position: sticky;
     top: 0;
     background-color: themed("bg");
-    color:themed("textColor");
+    color: themed("textColor");
     z-index: 999;
 
     .left {
@@ -26,41 +26,94 @@
       }
 
       .pastebook {
-            .paste {
-              color: #104489;
-              font-family: 'Poppins', sans-serif;
-              font-style: normal;
-              font-size: 20px;
-            }
+        .paste {
+          color: #104489;
+          font-family: 'Poppins', sans-serif;
+          font-style: normal;
+          font-size: 20px;
+        }
 
-            .book {
-              color: #d84343;
-              font-family: 'Poppins', sans-serif;
-              font-style: normal;
-              font-size: 20px;
-            }
+        .book {
+          color: #d84343;
+          font-family: 'Poppins', sans-serif;
+          font-style: normal;
+          font-size: 20px;
+        }
       }
 
-      .search {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        border: 1px solid themed("border");
-        border-radius: 5px;
-        padding: 5px;
+      .search-container {
+        position: relative;
+        .search {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          border: 1px solid themed("border");
+          border-radius: 25px;
+          padding: 8px;
+          padding-top: 6px;
+          padding-bottom: 6px;
 
-        input {
-          border: none;
-          width: 500px;
-          background-color: transparent;
-          color: themed("textColor");
+          input {
+            border: none;
+            width: 200px;
+            padding: 5px;
+            background-color: transparent;
+            color: themed("textColor");
 
-          @include mobile{
-            display: none;
+            &:focus {
+              outline: none;
+              border: none;
+            }
+
+            @include mobile{
+              display: none;
+            }
+
+            @include tablet{
+              width: 200px;
+            }
+          }
+        }
+
+        .search-results {
+          position: absolute;
+          top: 38px;
+          width: 260px;
+          background-color: #fff;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          z-index: 1000;
+          max-height: 300px;
+          overflow-y: auto;
+          border-top: none;
+          border-radius: 5px;
+
+          .search-results-dropdown {
+            display: flex;
+            flex-direction: column;
           }
 
-          @include tablet{
-            width: 200px;
+          .search-result-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #ccc;
+
+            img {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              margin-right: 8px;
+            }
+
+            span {
+              font-size: 14px;
+              font-weight: 500;
+            }
+
+            &:hover {
+              background-color: #f0f2f5;
+            }
           }
         }
       }

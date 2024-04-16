@@ -1,26 +1,21 @@
 import "./navbar.scss";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
-import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import Placeholder from "../../assets/placeholder.png"
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
-import { useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 
 const Navbar = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const { toggle, darkMode } = useContext(DarkModeContext);
   const { currentUser } = useContext(AuthContext);
-  const navigate = useNavigate();
-
   const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -31,6 +26,30 @@ const Navbar = () => {
     }
   }
 
+  const handleSearch = async (term) => {
+    const { data, error } = await makeRequest(`/users/search?q=${term}`);
+    if (error) {
+      console.error("Search error:", error);
+    } else {
+      setSearchResults(data);
+    }
+  };  
+
+  const handleChange = async (e) => {
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+    if (newSearchTerm.trim() !== "") {
+      await handleSearch(newSearchTerm);
+    } else {
+      setSearchResults([]);
+    }
+  };
+
+  const handleProfileClick = () => {
+    setSearchTerm("");
+    setSearchResults([]);
+  };
+  
   return (
     <div className="navbar">
       <div className="left">
@@ -40,21 +59,38 @@ const Navbar = () => {
             <span className="book">book</span>
           </div>
         </Link>
-        {/* <HomeOutlinedIcon />
-        {darkMode ? (
-          <WbSunnyOutlinedIcon onClick={toggle} />
-        ) : (
-          <DarkModeOutlinedIcon onClick={toggle} />
-        )}
-        <GridViewOutlinedIcon /> */}
-        <div className="search">
-          <SearchOutlinedIcon />
-          <input type="text" placeholder="Search..." />
+        <div className="search-container">
+          <div className="search">
+            <SearchOutlinedIcon />
+            <input
+              type="text"
+              placeholder="Search Pastebook"
+              value={searchTerm}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="search-results">
+            {searchResults.length > 0 && (
+              <div className="search-results-dropdown">
+                {searchResults.map((user) => (
+                  <Link
+                    to={`/profile/${user.id}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                    onClick={handleProfileClick}
+                    key={user.id}
+                  >
+                  <div key={user.id} className="search-result-item">
+                    <img src={user.profilePic} alt="" />
+                    <span>{user.firstName} {user.lastName}</span>
+                  </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <div className="right">
-        {/* <PersonOutlinedIcon />
-        <EmailOutlinedIcon /> */}
         <div className="moon">
           {darkMode ? (
             <WbSunnyOutlinedIcon onClick={toggle} />
@@ -67,14 +103,11 @@ const Navbar = () => {
         </div>
         <div className="user">
           <button onClick={handleLogout}>
-            <img
-              src={currentUser.profilePic}
-              alt=""
-            />
+            <img src={currentUser.profilePic} alt="" />
           </button>
         </div>
       </div>
-    </div>
+  </div>
   );
 };
 
