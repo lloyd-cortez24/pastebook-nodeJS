@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { makeRequest } from "../../axios";
 import moment from "moment";
 
-const Comments = ({ postId, comments }) => {
+const Comments = ({ post, postId, comments }) => {
   const [desc, setDesc] = useState("");
   const { currentUser } = useContext(AuthContext);
 
@@ -15,11 +15,19 @@ const Comments = ({ postId, comments }) => {
     mutationFn: (newComment) => {
       return makeRequest.post("/comments", newComment);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["comments"] });
+      
+      if (post.userId !== currentUser.id) {
+        await makeRequest.post("/notifications", {
+          userId: post.userId,
+          postId: post.id,
+          type: "comment",
+        });
+      }
     },
-  })
+  });
 
   const handleClick = async (e) => {
     e.preventDefault();

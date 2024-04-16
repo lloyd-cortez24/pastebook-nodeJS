@@ -20,6 +20,7 @@ const Profile = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
   const {currentUser} = useContext(AuthContext);
   const userId = parseInt(useLocation().pathname.split("/")[2]);
+  const queryClient = useQueryClient();
 
   const { isLoading: userLoading, data: userData } = useQuery({
     queryKey: ['user'],
@@ -38,16 +39,31 @@ const Profile = () => {
     enabled: !!userId,
   });
 
-  const queryClient = useQueryClient();
-
   const mutation = useMutation({
-    mutationFn: (following) => {
-      if (following) return makeRequest.delete("/relationships?userId=" + userId);
-      return makeRequest.post("/relationships", { userId });
+    mutationFn: async (following) => {
+      if (following) {
+        await makeRequest.delete("/relationships?userId=" + userId);
+        // Delete notification if friend request is taken back
+        const notificationData = {
+          userId: userId,
+          type: "friend_request",
+        };
+        await makeRequest.delete("/notifications", { data: notificationData });
+      } else {
+        await makeRequest.post("/relationships", { userId });
+      }
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["relationship"] });
+
+      if (!relationshipData.includes(currentUser.id)) {
+        const notificationData = {
+          userId: userId,
+          type: "friend_request",
+        };
+        await makeRequest.post("/notifications", notificationData);
+      }
     },
   });
 

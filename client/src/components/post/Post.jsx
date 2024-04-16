@@ -16,6 +16,7 @@ const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const {currentUser} = useContext(AuthContext);
+  const queryClient = useQueryClient();
 
   const { isLoading: likesLoading, data: likesData } = useQuery({
     queryKey: ["likes", post.id],
@@ -29,19 +30,40 @@ const Post = ({ post }) => {
       makeRequest.get("/comments?postId=" + post.id).then((res) => res.data),
   });
 
-  const queryClient = useQueryClient();
-
   const mutation = useMutation({
     mutationFn: (liked) => {
-      if(liked) return makeRequest.delete("/likes?postId=" + post.id);
-      return makeRequest.post("/likes", {postId : post.id});
+      if (liked) {
+        return makeRequest.delete("/likes?postId=" + post.id);
+      } else {
+        return makeRequest.post("/likes", { postId: post.id });
+      }
     },
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["likes"] });
+    onSuccess: async () => {
+      const isLiked = !likesData.includes(currentUser.id);
+      await queryClient.invalidateQueries(["likes", post.id]);
+      // Add or remove notification based on like status
+      if (isLiked) {
+        // Only create a notification if the notifierUserId and notifiedUserId are different
+        if (post.userId !== currentUser.id) {
+          await makeRequest.post("/notifications", {
+            userId: post.userId,
+            postId: post.id,
+            type: "like",
+          });
+        }
+      } else {
+        // Delete the notification if it exists
+        await makeRequest.delete("/notifications", {
+          data: {
+            userId: post.userId,
+            postId: post.id,
+            type: "like",
+          },
+        });
+      }
     },
   });
-
+  
   const deleteMutation = useMutation({
     mutationFn: (postId) => {
       return makeRequest.delete("/posts/" + postId);
@@ -112,7 +134,7 @@ const Post = ({ post }) => {
             Share
           </div> */}
         </div>
-        {commentOpen && <Comments postId={post.id} comments={commentsData} />}
+        {commentOpen && <Comments post={post} postId={post.id} comments={commentsData} />}
       </div>
     </div>
   );
