@@ -75,10 +75,12 @@
         display: none;
       }
 
-      .user {
+      button {
         display: flex;
         align-items: center;
         gap: 10px;
+        border: none;
+        background-color: transparent;
         font-weight: 500;
         cursor: pointer;
 
@@ -93,7 +95,6 @@
           object-fit: cover;
         }
       }
-
       .notif, .moon {
         cursor: pointer;
       }
