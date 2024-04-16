@@ -1,5 +1,53 @@
 @import "../../style.scss";
 
+span {
+  .notifText {
+    font-weight: 400;
+  }
+}
+
+.notification-menu {
+  position: absolute;
+  top: 60px;
+  right: 20px; 
+  width: 320px; 
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 400px; 
+  overflow-y: auto;
+  border-radius: 8px; 
+  border: 1px solid #ccc;
+  
+  .notification-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #e9ebee;
+    cursor: pointer;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 12px;
+    }
+
+    span {
+      font-size: 14px;
+      font-weight: bold;
+
+      &.notifText {
+        font-weight: normal;
+      }
+    }
+  }
+}
+
 .navbar {
   @include themify($themes) {
     display: flex;

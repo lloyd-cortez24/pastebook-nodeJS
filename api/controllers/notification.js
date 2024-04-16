@@ -3,12 +3,16 @@ import { db } from "../connect.js"
 import jwt from "jsonwebtoken";
 
 export const getNotifications = (req, res) => {
-    const q = "SELECT notifierUserId FROM notifications WHERE notifiedUserId = ?";
-
-    db.query(q, [req.query.notifiedUserId], (err, data) => {
+  const q = `
+    SELECT n.*, u.firstName, u.lastName, u.profilePic
+    FROM notifications AS n
+    INNER JOIN users AS u ON n.notifierUserId = u.id
+    WHERE n.notifiedUserId = ?
+  `;
+  db.query(q, [req.query.notifiedUserId], (err, data) => {
     if (err) return res.status(500).json(err);
-    return res.status(200).json(data.map(notification => notification.notifiedUserId));
-    });
+    return res.status(200).json(data);
+  });
 }
 
 export const addNotification = (req,res) => {
