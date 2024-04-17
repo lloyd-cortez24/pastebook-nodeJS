@@ -18,6 +18,7 @@
       width: 40%;
       height: 70%;
       background-color: themed("bg");
+      border-radius: 15px;
       padding: 50px;
       z-index: 999;
       display: flex;
@@ -94,6 +95,18 @@
           color: gray;
           background-color: transparent;
           color: themed("textColor");
+        }
+
+        select {
+          font-family: 'Poppins';
+          font-size: 12px;
+          border: 1px solid lightgray;
+          border-radius: 7px;
+          padding: 15px 10px;
+        }
+
+        label {
+          font-family: 'Poppins';
         }
 
         button {

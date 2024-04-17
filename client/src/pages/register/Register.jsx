@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./register.scss";
 import { useState } from "react";
 import axios from "axios";
@@ -28,6 +28,7 @@ const Register = () => {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -117,13 +118,14 @@ const Register = () => {
 
     try {
       await axios.post("http://localhost:8800/api/auth/register", inputs);
-        // resetForm();
+      navigate("/login");
         Swal.fire({
           icon: "success",
           title: "Registration Successful! Please verify your email.",
           showConfirmButton: false,
           timer: 1500
         });
+        resetForm();
     } catch (err) {
       setErr(err.response.data);
     };

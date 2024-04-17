@@ -6,7 +6,7 @@ import { useContext, useState, useRef, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
-import { Edit } from "../../components/edit/Edit";
+import { EditPost } from "../editPost/EditPost";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
@@ -109,7 +109,7 @@ const Post = ({ post }) => {
 
   return (
     <div className="post">
-      <div className="container" ref={postRef}>
+      <div className="container">
         <div className="user">
           <div className="userInfo">
             <img src={post.profilePic} alt="" />
@@ -127,7 +127,7 @@ const Post = ({ post }) => {
               </span>
             </div>
           </div>
-          <div className="actions">
+          <div className="actions" ref={postRef}>
             <MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />
             {menuOpen && post.postedByUserId === currentUser.id && (
               <div className="actions-menu">
@@ -181,7 +181,7 @@ const Post = ({ post }) => {
           <Comments post={post} postId={post.id} comments={commentsData} />
         )}
       </div>
-      {openEdit && <Edit setOpenEdit={setOpenEdit} post={postData} />}
+      {openEdit && <EditPost setOpenEdit={setOpenEdit} post={postData} />}
     </div>
   );
 };

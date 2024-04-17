@@ -1,9 +1,9 @@
-import "./edit.scss";
+import "./editPost.scss";
 import { useEffect, useState } from "react";
 import { makeRequest } from "../../axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const Edit = ({ setOpenEdit, post }) => {
+export const EditPost = ({ setOpenEdit, post }) => {
     const [texts, setTexts] = useState({
         desc: post.desc,
         img: post.img,
@@ -20,9 +20,7 @@ export const Edit = ({ setOpenEdit, post }) => {
           return makeRequest.put("/posts/" + updatedPost.id, updatedPost);
         },
         onSuccess: () => {
-          // Refetch relevant queries
           queryClient.refetchQueries(['posts', post.id]);
-          // Close the edit form
           setOpenEdit(false);
         },
     });      

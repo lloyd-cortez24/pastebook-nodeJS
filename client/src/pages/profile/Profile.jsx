@@ -5,18 +5,22 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import Image from "../../assets/img.png";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import SettingsIcon from '@mui/icons-material/Settings';
 import Posts from "../../components/posts/Posts";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { useParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { AuthContext } from "../../context/authContext";
 import { Update } from "../../components/update/Update";
+import { EditEmail } from "../../components/editEmail/EditEmail";
+import { EditPassword } from "../../components/editPassword/EditPassword";
 
 const Profile = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [openEditEmail, setOpenEditEmail] = useState(false);
+  const [openEditPassword, setOpenEditPassword] = useState(false);
   const {currentUser} = useContext(AuthContext);
   const { id } = useParams();
   const postedByUserId = parseInt(id);
@@ -24,6 +28,7 @@ const Profile = () => {
   const [desc, setDesc] = useState("");
   const [error, setError] = useState(null);
   const queryClient = useQueryClient();
+  const postRef = useRef(null);
 
   useEffect(() => {
     setFile(null);
@@ -124,7 +129,6 @@ const Profile = () => {
     setFile(null);
   };
   
-  
   const removeFile = () => {
     setFile(null);
   };
@@ -140,6 +144,18 @@ const Profile = () => {
       console.log(err);
     }
   }
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (postRef.current && !postRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="profile">
@@ -193,9 +209,22 @@ const Profile = () => {
                   </button>
                 )}
               </div>
-              <div className="right">
-                <EmailOutlinedIcon />
-                <MoreVertIcon />
+              <div className="right" ref={postRef}>
+              {currentUser.id === userData.id && (
+                <>
+                  <SettingsIcon className="settings" onClick={() => setMenuOpen(!menuOpen)} />
+                  {menuOpen && (
+                    <div className="settings-menu">
+                      <div className="menu-item" onClick={() => { setOpenEditEmail(true); setMenuOpen(false); }}>
+                        <button>Edit Email</button>
+                      </div>
+                      <div className="menu-item" onClick={() => { setOpenEditPassword(true); setMenuOpen(false); }}>
+                        <button>Edit Password</button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
               </div>
             </div>
           
@@ -249,6 +278,8 @@ const Profile = () => {
         </>
       )}
       {openUpdate && <Update setOpenUpdate={setOpenUpdate} user={userData} />}
+      {openEditEmail && userData && <EditEmail setOpenEditEmail={setOpenEditEmail} user={userData} userId={postedByUserId} />}
+      {openEditPassword && userData && <EditPassword setOpenEditPassword={setOpenEditPassword} user={userData} userId={postedByUserId} />}
     </div>
   );
 };

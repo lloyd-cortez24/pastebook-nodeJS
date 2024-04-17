@@ -57,7 +57,7 @@ export const Update = ({setOpenUpdate, user}) => {
         setOpenUpdate(false);
         setCover(null);
         setProfile(null);
-    }
+    };
 
     useEffect(() => {
       const originalOverflow = document.body.style.overflow;
@@ -116,20 +116,6 @@ export const Update = ({setOpenUpdate, user}) => {
                 onChange={(e) => setProfile(e.target.files[0])}
               />
             </div>
-            {/* <label>Email</label>
-            <input
-              type="text"
-              value={texts.email}
-              name="email"
-              onChange={handleChange}
-            />
-            <label>Password</label>
-            <input
-              type="text"
-              value={texts.password}
-              name="password"
-              onChange={handleChange}
-            /> */}
             <label>First Name</label>
             <input
               type="text"

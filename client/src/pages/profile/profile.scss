@@ -1,5 +1,41 @@
 @import "../../style.scss";
 
+.settings-menu {
+  @include themify($themes) {
+    position: absolute;
+    top: 40px;
+    right: 40px; 
+    width: 250px; 
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 400px; 
+    overflow-y: auto;
+    border-radius: 8px; 
+    border: 1px solid #ccc;
+    
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background-color: themed("bg");
+      border-bottom: 1px solid #e9ebee;
+      cursor: pointer;
+  
+      button {
+        border: none;
+        margin-left: 7px;
+        background-color: themed("bg");
+        color: themed("textColor");
+        font-family: 'Poppins', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 .profile {
   @include themify($themes) {
     background-color: themed("bgSoft");
@@ -23,6 +59,7 @@
         position: absolute;
         left: 0;
         right: 0;
+        z-index: 1;
         margin: auto;
         top: 200px;
       }
@@ -51,6 +88,7 @@
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
+        position: relative;
 
         @include mobile{
           flex-direction: column;
@@ -120,6 +158,13 @@
           align-items: center;
           justify-content: flex-end;
           gap: 10px;
+
+          .settings {
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+          }
         }
 
         .top {
@@ -149,8 +194,6 @@
   
           .right2 {
             flex: 1;
-            // display: flex;
-            // justify-content: flex-end;
             position: relative;
             .file {
               width: 100%;
