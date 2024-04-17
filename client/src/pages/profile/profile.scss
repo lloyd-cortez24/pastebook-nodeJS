@@ -78,6 +78,7 @@
           display: flex;
           flex-direction: column;
           align-items: center;
+          margin-top: 40px;
           gap: 10px;
 
           span {
@@ -93,12 +94,13 @@
 
             .item {
               display: flex;
+              text-align: center;
               align-items: center;
               gap: 5px;
               color: themed("textColorSoft");
 
               span {
-                font-size: 12px;
+                font-size: 18px;
               }
             }
           }
@@ -118,6 +120,64 @@
           align-items: center;
           justify-content: flex-end;
           gap: 10px;
+        }
+
+        .top {
+          align-items: center;
+          justify-content: space-between;
+          
+          .left2 {
+            display: flex;
+            align-items: center;
+            flex: 3;
+            img {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+    
+            input {
+              border: none;
+              outline: none;
+              padding: 20px 10px;
+              background-color: transparent;
+              width: 60%;
+              color: themed("textColor");
+            }
+          }
+  
+          .right2 {
+            flex: 1;
+            // display: flex;
+            // justify-content: flex-end;
+            position: relative;
+            .file {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              border-radius: 0px;
+              position: relative;
+            }
+            .remove-file {
+              position: absolute;
+              top: 5px;
+              right: 5px;
+              background-color: rgba(255, 255, 255, 0.8);
+              border: none;
+              border-radius: 50%;
+              width: 20px;
+              height: 20px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: bold;
+              cursor: pointer;
+              &:hover {
+                background-color: rgba(255, 255, 255, 0.5);
+              }
+            }
+          }
         }
       }
     }

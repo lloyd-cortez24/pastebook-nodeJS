@@ -19,9 +19,9 @@ const Comments = ({ post, postId, comments }) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["comments"] });
       
-      if (post.userId !== currentUser.id) {
+      if (post.postedByUserId !== currentUser.id) {
         await makeRequest.post("/notifications", {
-          userId: post.userId,
+          postedByUserId: post.postedByUserId,
           postId: post.id,
           type: "comment",
         });

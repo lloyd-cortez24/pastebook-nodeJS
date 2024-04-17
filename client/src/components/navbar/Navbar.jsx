@@ -4,7 +4,7 @@ import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
 import { makeRequest } from "../../axios";
@@ -16,6 +16,7 @@ const Navbar = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const { toggle, darkMode } = useContext(DarkModeContext);
   const { currentUser, logout } = useContext(AuthContext);
+  const notificationRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,7 +26,6 @@ const Navbar = () => {
           params: { notifiedUserId: currentUser.id },
         });
         setNotifications(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching notifications:", error);
       }
@@ -33,6 +33,20 @@ const Navbar = () => {
 
     fetchNotifications();
   }, [currentUser.id]);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   const renderNotificationContent = (notification) => {
     switch (notification.type) {
@@ -64,7 +78,11 @@ const Navbar = () => {
     if (error) {
       console.error("Search error:", error);
     } else {
-      setSearchResults(data);
+      const filteredResults = data.filter(user =>
+        user.firstName.toLowerCase().startsWith(term.toLowerCase())
+        // || user.lastName.toLowerCase().startsWith(term.toLowerCase())
+      );
+      setSearchResults(filteredResults);
     }
   };  
 
@@ -119,6 +137,7 @@ const Navbar = () => {
                     to={`/profile/${user.id}`}
                     style={{ textDecoration: "none", color: "inherit" }}
                     onClick={handleProfileClick}
+                    key={user.id}
                   >
                   <div key={user.id} className="search-result-item">
                     <img src={user.profilePic} alt="" />
@@ -142,7 +161,7 @@ const Navbar = () => {
         <div className="notif" onClick={() => setShowNotifications(!showNotifications)}>
           <NotificationsOutlinedIcon />
           {showNotifications && (
-            <div className="notification-menu">
+            <div ref={notificationRef} className="notification-menu">
               {notifications.map((notification) => (
                 <div key={notification.id} className="notification-item">
                   <img src={notification.profilePic} alt="" />

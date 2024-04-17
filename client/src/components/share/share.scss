@@ -13,9 +13,16 @@
     .container {
       padding: 20px;
       .top {
-        // display: flex;
         align-items: center;
         justify-content: space-between;
+
+        .error {
+          font-family: 'Poppins';
+          font-size: 13px;
+          color: red;
+          margin-top: 5px;
+          margin-left: 25px;
+        }
         
         .left {
           display: flex;
@@ -27,21 +34,21 @@
             border-radius: 50%;
             object-fit: cover;
           }
-  
-          input {
-            border: none;
-            outline: none;
-            padding: 20px 10px;
-            background-color: transparent;
-            width: 60%;
-            color: themed("textColor");
+
+          .share-container {
+            input {
+              border: none;
+              outline: none;
+              padding: 20px 10px;
+              background-color: transparent;
+              width: 100%;
+              color: themed("textColor");
+            }
           }
         }
 
         .right {
           flex: 1;
-          // display: flex;
-          // justify-content: flex-end;
           position: relative;
           .file {
             width: 100%;

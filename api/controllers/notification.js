@@ -16,19 +16,19 @@ export const getNotifications = (req, res) => {
 }
 
 export const addNotification = (req,res) => {
-    const token = req.cookies.accessToken;
+  const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     // Check if notifierUserId is different from notifiedUserId
-    if (userInfo.id !== req.body.userId) {
+    if (userInfo.id !== req.body.postedByUserId) {
       const q =
         "INSERT INTO notifications (`notifierUserId` , `notifiedUserId`, `postId`, `type`, `createdAt`) VALUES (?)";
       const values = [
         userInfo.id,
-        req.body.userId,
+        req.body.postedByUserId,
         req.body.postId,
         req.body.type,
         moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
@@ -55,7 +55,7 @@ export const deleteNotification = (req,res) => {
       "DELETE FROM notifications WHERE `notifierUserId` = ? AND `notifiedUserId` = ? AND `postId` = ? AND `type` = ?";
     const values = [
       userInfo.id,
-      req.body.userId,
+      req.body.postedByUserId,
       req.body.postId,
       req.body.type,
     ];

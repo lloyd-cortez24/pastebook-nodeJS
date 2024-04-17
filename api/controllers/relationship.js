@@ -10,6 +10,19 @@ export const getRelationships = (req, res) => {
     });
 }
 
+export const getFriendsList = (req, res) => {
+  const q = `
+    SELECT r.*, u.id, u.firstName, u.lastName, u.profilePic
+    FROM relationships AS r
+    INNER JOIN users AS u ON r.followedUserId = u.id
+    WHERE r.followerUserId = ?
+    `;
+    db.query(q, [req.query.followerUserId], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json(data);
+  });
+}
+
 export const addRelationship = (req,res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Not logged in!");

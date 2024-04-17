@@ -1,20 +1,19 @@
 import "./share.scss";
 import Image from "../../assets/img.png";
-import Map from "../../assets/map.png";
-import Friend from "../../assets/friend.png";
-import Placeholder from "../../assets/placeholder.png"
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import {
   useMutation,
-  useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
 import { makeRequest } from "../../axios";
 
 const Share = () => {
+  const {currentUser} = useContext(AuthContext);
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState("");
+  const [error, setError] = useState(null);
+  const queryClient = useQueryClient();
 
   const upload = async () => {
     try {
@@ -26,10 +25,7 @@ const Share = () => {
     } catch(err) {
       console.log(err);
     }
-  }
-
-  const {currentUser} = useContext(AuthContext);
-  const queryClient = useQueryClient();
+  };
 
   const mutation = useMutation({
     mutationFn: (newPost) => {
@@ -38,16 +34,21 @@ const Share = () => {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      setDesc("");
+      setFile(null);
     },
-  })
+  });
 
   const handleClick = async (e) => {
     e.preventDefault();
+    if (!desc.trim()) {
+      setError("Please enter some content before sharing.");
+      return;
+    }
+    setError(null);
     let imgUrl = "";
     if(file) imgUrl = await upload();
     mutation.mutate({desc, img:imgUrl});
-    setDesc("");
-    setFile(null);
   };
 
   const removeFile = () => {
@@ -59,14 +60,17 @@ const Share = () => {
       <div className="container">
         <div className="top">
           <div className="left">
-            <img
-              src={currentUser.profilePic}
-              alt=""
-            />
-            <input type="text" placeholder={`What's on your mind, ${currentUser.firstName}?`} onChange={e => setDesc(e.target.value)}
-            value={desc}
-           />
+            <div className="profile-pic">
+              <img
+                src={currentUser.profilePic}
+                alt=""
+              />
+            </div>
+            <div className="share-container">
+              <input type="text" placeholder={`What's on your mind, ${currentUser.firstName}?`} onChange={e => setDesc(e.target.value)} value={desc} />
+            </div>
           </div>
+          {error && <p className="error">{error}</p>}
           <div className="right">
             {file && (
               <div className="file-preview">
@@ -86,14 +90,6 @@ const Share = () => {
                 <span>Add Image</span>
               </div>
             </label>
-            <div className="item">
-              <img src={Map} alt="" />
-              <span>Add Place</span>
-            </div>
-            <div className="item">
-              <img src={Friend} alt="" />
-              <span>Tag Friends</span>
-            </div>
           </div>
           <div className="right">
             <button onClick={handleClick}>Share</button>

@@ -120,7 +120,7 @@ const Register = () => {
         // resetForm();
         Swal.fire({
           icon: "success",
-          title: "Registration Successful!",
+          title: "Registration Successful! Please verify your email.",
           showConfirmButton: false,
           timer: 1500
         });

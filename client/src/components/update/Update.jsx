@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import "./update.scss";
+import { useEffect, useState } from "react";
 import { makeRequest } from "../../axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -8,7 +8,6 @@ export const Update = ({setOpenUpdate, user}) => {
     const [cover, setCover] = useState(null);
     const [profile, setProfile] = useState(null);
     const [texts, setTexts] = useState({
-        password: user.password,
         firstName: user.firstName,
         lastName: user.lastName,
         gender: user.gender,
@@ -166,18 +165,11 @@ export const Update = ({setOpenUpdate, user}) => {
               name="mobileNumer"
               onChange={handleChange}
             />
-            <label>Country / City</label>
+            <label>Bio</label>
             <input
               type="text"
-              name="city"
-              value={texts.city}
-              onChange={handleChange}
-            />
-            <label>Website</label>
-            <input
-              type="text"
-              name="website"
-              value={texts.website}
+              value={texts.bio}
+              name="bio"
               onChange={handleChange}
             />
             <button onClick={handleClick}>Update</button>

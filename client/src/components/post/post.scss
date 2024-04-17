@@ -1,5 +1,41 @@
 @import "../../style.scss";
 
+.actions-menu {
+  @include themify($themes) {
+    position: absolute;
+    top: 20px;
+    right: 20px; 
+    width: 250px; 
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 400px; 
+    overflow-y: auto;
+    border-radius: 8px; 
+    border: 1px solid #ccc;
+    
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background-color: themed("bg");
+      border-bottom: 1px solid #e9ebee;
+      cursor: pointer;
+  
+      button {
+        border: none;
+        margin-left: 7px;
+        background-color: themed("bg");
+        color: themed("textColor");
+        font-family: 'Poppins', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 .post {
   @include themify($themes) {
     -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
@@ -41,16 +77,6 @@
               font-size: 12px;
             }
           }
-        }
-        button {
-          position: absolute;
-          top: 30px;
-          right: 0;
-          border: none;
-          background-color: #f0544f;
-          padding: 5px;
-          cursor: pointer;
-          color: white;
         }
       }
 
