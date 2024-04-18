@@ -50,38 +50,42 @@ export const updateUser = (req,res) => {
 export const updateEmail = (req, res) => {
     const { newEmail, currentPassword, userId } = req.body;
 
-    const getUserQuery = "SELECT * FROM users WHERE id = ?";
-    db.query(getUserQuery, [userId], (err, userData) => {
-        if (err) return res.status(500).json(err);
+    jwt.verify(token, "secretkey", (err, userInfo) => {
+        const getUserQuery = "SELECT * FROM users WHERE id = ?";
+        db.query(getUserQuery, [userInfo.id], (err, userData) => {
+            if (err) return res.status(500).json(err);
 
-        if (userData.length === 0) {
-            return res.status(404).json("User not found!");
-        }
-
-        const user = userData[0];
-
-        const isPasswordValid = bcrypt.compareSync(currentPassword, user.password);
-        if (!isPasswordValid) {
-            return res.status(400).json("Incorrect password!");
-        }
-
-        // Check if the new email is already associated with another user
-        const checkEmailQuery = "SELECT * FROM users WHERE email = ? AND id != ?";
-        db.query(checkEmailQuery, [newEmail, userId], (emailErr, emailData) => {
-            if (emailErr) return res.status(500).json(emailErr);
-
-            if (emailData.length > 0) {
-                return res.status(400).json("Email already in use!");
+            if (userData.length === 0) {
+                return res.status(404).json("User not found!");
             }
 
-            const updateQuery = "UPDATE users SET email = ? WHERE id = ?";
-            db.query(updateQuery, [newEmail, userId], (updateErr, updateData) => {
-                if (updateErr) return res.status(500).json(updateErr);
+            const user = userData[0];
 
-                return res.status(200).json("Email updated successfully!");
+            const isPasswordValid = bcrypt.compareSync(currentPassword, user.password);
+            if (!isPasswordValid) {
+                return res.status(400).json("Incorrect password!");
+            }
+
+            // Check if the new email is already associated with another user
+            const checkEmailQuery = "SELECT * FROM users WHERE email = ? AND id != ?";
+            db.query(checkEmailQuery, [newEmail, userInfo.id], (emailErr, emailData) => {
+                if (emailErr) return res.status(500).json(emailErr);
+
+                if (emailData.length > 0) {
+                    return res.status(400).json("Email already in use!");
+                }
+
+                const updateQuery = "UPDATE users SET email = ? WHERE id = ?";
+                db.query(updateQuery, [newEmail, userInfo.id], (updateErr, updateData) => {
+                    if (updateErr) return res.status(500).json(updateErr);
+
+                    return res.status(200).json("Email updated successfully!");
+                });
             });
         });
     });
+
+    
 };
 
 export const updatePassword = (req,res) => {

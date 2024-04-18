@@ -29,10 +29,11 @@ const LeftBar = () => {
         <div className="menu">
           <Link to={`/profile/${currentUser.id}`} style={{ textDecoration: "none" }}>
             <div className="user">
-              <img
-                src={currentUser.profilePic || Placeholder}
-                alt=""
-              />
+              {currentUser.profilePic 
+              ? (
+                <img src={"/upload/" + currentUser.profilePic} className="profilePic" /> )
+              : <img src={"/upload/placeholder.png"} className="profilePic" />
+              }
               <span>{currentUser.firstName} {currentUser.lastName}</span>
             </div>
           </Link>

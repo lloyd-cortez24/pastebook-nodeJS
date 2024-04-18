@@ -127,7 +127,7 @@ span {
           position: absolute;
           top: 38px;
           width: 260px;
-          background-color: #fff;
+          background-color: themed("bg");
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
           z-index: 1000;
           max-height: 300px;
@@ -144,7 +144,7 @@ span {
             display: flex;
             align-items: center;
             padding: 8px;
-            cursor: pointer;
+            // cursor: pointer;
             border-bottom: 1px solid #ccc;
 
             img {
@@ -152,6 +152,7 @@ span {
               height: 30px;
               border-radius: 50%;
               margin-right: 8px;
+              object-fit: cover;
             }
 
             span {
@@ -160,7 +161,7 @@ span {
             }
 
             &:hover {
-              background-color: #f0f2f5;
+              background-color: themed("hoverColor");
             }
           }
         }
@@ -198,6 +199,23 @@ span {
       }
       .notif, .moon {
         cursor: pointer;
+
+        .notification-menu {
+          border: themed("border");
+          background-color: themed("bg");
+
+          .notification-item {
+            &:hover {
+              background-color: themed("hoverColor");
+            }
+          }
+        }
+        
+        img {
+          border-radius: 50%;
+          margin-right: 8px;
+          object-fit: cover;
+        }
       }
     }
   }

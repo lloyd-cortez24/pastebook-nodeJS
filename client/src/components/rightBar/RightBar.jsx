@@ -116,7 +116,11 @@ const RightBar = () => {
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <div className="userInfo">
-                  <img src={friend.profilePic} alt={`${friend.firstName} ${friend.lastName}`} />
+                  {friend.profilePic 
+                  ? (
+                    <img src={"/upload/" + friend.profilePic} className="profilePic" /> )
+                  : <img src={"/upload/placeholder.png"} className="profilePic" />
+                  }
                   <div className="online" />
                   <span>{`${friend.firstName} ${friend.lastName}`}</span>
                 </div>

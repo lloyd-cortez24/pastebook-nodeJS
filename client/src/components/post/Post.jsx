@@ -112,7 +112,11 @@ const Post = ({ post }) => {
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <img src={post.profilePic} alt="" />
+            {post.profilePic 
+            ? (
+              <img src={"/upload/" + post.profilePic} className="profilePic" /> )
+            : <img src={"/upload/placeholder.png"} className="profilePic" />
+            }
             <div className="details">
               <Link
                 to={`/profile/${post.postedByUserId}`}

@@ -37,7 +37,7 @@ export const Update = ({setOpenUpdate, user}) => {
 
     const mutation = useMutation({
         mutationFn: (user) => {
-        return makeRequest.put("/users", user);
+        return makeRequest.put("/users/updateUser", user);
         },
         onSuccess: () => {
         // Invalidate and refetch

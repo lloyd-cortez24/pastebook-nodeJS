@@ -4,8 +4,8 @@ import { getUser, searchUsers, updateEmail, updatePassword, updateUser } from ".
 const router = express.Router()
 
 router.get("/profile/:userId", getUser)
-router.put("/", updateUser)
-router.put("/profile/:userId", updateEmail)
+router.put("/updateUser", updateUser)
+router.put("/", updateEmail)
 router.put("/updatePassword", updatePassword)
 router.get("/search", searchUsers);
 

@@ -7,6 +7,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import Image from "../../assets/img.png";
 import SettingsIcon from '@mui/icons-material/Settings';
 import Posts from "../../components/posts/Posts";
+import Placeholder from "../../assets/placeholder.png"; 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { useParams } from "react-router-dom";
@@ -165,11 +166,13 @@ const Profile = () => {
         <>
           <div className="images">
             {userData.coverPic && (
-              <img src={userData.coverPic} alt="" className="cover" />
+              <img src={"/upload/" + userData.coverPic} alt="" className="cover" />
             )}
-            {userData.profilePic && (
-              <img src={userData.profilePic} alt="" className="profilePic" />
-            )}
+            {userData.profilePic 
+            ? (
+              <img src={"/upload/" + userData.profilePic} className="profilePic" /> )
+            : <img src={"/upload/placeholder.png"} className="profilePic" />
+            }
           </div>
           <div className="profileContainer">
             <div className="uInfo">
@@ -232,10 +235,11 @@ const Profile = () => {
               <div className="container">
                 <div className="top">
                   <div className="left">
-                    <img
-                      src={currentUser.profilePic}
-                      alt=""
-                    />
+                  {currentUser.profilePic 
+                  ? (
+                    <img src={"/upload/" + currentUser.profilePic} className="profilePic" /> )
+                  : <img src={"/upload/placeholder.png"} className="profilePic" />
+                  }
                     <div className="share-container">
                       <input
                         type="text"

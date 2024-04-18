@@ -38,7 +38,11 @@ const Comments = ({ post, postId, comments }) => {
   return (
     <div className="comments">
       <div className="write">
-        <img src={currentUser.profilePic} alt="" />
+        {currentUser.profilePic 
+        ? (
+          <img src={"/upload/" + currentUser.profilePic} className="profilePic" /> )
+        : <img src={"/upload/placeholder.png"} className="profilePic" />
+        }
         <input
           type="text"
           placeholder="write a comment"
@@ -49,7 +53,11 @@ const Comments = ({ post, postId, comments }) => {
       </div>
       {comments.map((comment) => (
         <div className="comment" key={comment.id}>
-          <img src={comment.profilePic} alt="" />
+          {comment.profilePic 
+          ? (
+            <img src={"/upload/" + comment.profilePic} className="profilePic" /> )
+          : <img src={"/upload/placeholder.png"} className="profilePic" />
+          }
           <div className="info">
             <span>
               {comment.firstName} {comment.lastName}

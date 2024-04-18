@@ -2,6 +2,7 @@ import "./navbar.scss";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import Placeholder from "../../assets/placeholder.png"; 
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useContext, useEffect, useState, useRef } from "react";
@@ -17,6 +18,7 @@ const Navbar = () => {
   const { toggle, darkMode } = useContext(DarkModeContext);
   const { currentUser, logout } = useContext(AuthContext);
   const notificationRef = useRef(null);
+  const searchRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +40,20 @@ const Navbar = () => {
     const handleOutsideClick = (event) => {
       if (notificationRef.current && !notificationRef.current.contains(event.target)) {
         setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setSearchResults(false);
       }
     };
 
@@ -131,7 +147,7 @@ const Navbar = () => {
           </div>
           <div className="search-results">
             {searchResults.length > 0 && (
-              <div className="search-results-dropdown">
+              <div className="search-results-dropdown" ref={searchRef}>
                 {searchResults.map((user) => (
                   <Link
                     to={`/profile/${user.id}`}
@@ -140,7 +156,11 @@ const Navbar = () => {
                     key={user.id}
                   >
                   <div key={user.id} className="search-result-item">
-                    <img src={user.profilePic} alt="" />
+                  {user.profilePic 
+                  ? (
+                    <img src={"/upload/" + user.profilePic} className="profilePic" /> )
+                  : <img src={"/upload/placeholder.png"} className="profilePic" />
+                  }
                     <span>{user.firstName} {user.lastName}</span>
                   </div>
                   </Link>
@@ -164,7 +184,11 @@ const Navbar = () => {
             <div ref={notificationRef} className="notification-menu">
               {notifications.map((notification) => (
                 <div key={notification.id} className="notification-item">
-                  <img src={notification.profilePic} alt="" />
+                  {notification.profilePic 
+                  ? (
+                    <img src={"/upload/" + notification.profilePic} className="profilePic" /> )
+                  : <img src={"/upload/placeholder.png"} className="profilePic" />
+                  }
                   <div>
                     <span>{renderNotificationContent(notification)}</span>
                   </div>
@@ -175,7 +199,11 @@ const Navbar = () => {
         </div>
         <div className="user">
           <button onClick={handleLogout}>
-            <img src={currentUser.profilePic} alt="" />
+            {currentUser.profilePic 
+            ? (
+              <img src={"/upload/" + currentUser.profilePic} className="profilePic" /> )
+            : <img src={"/upload/placeholder.png"} className="profilePic" />
+            }
           </button>
         </div>
       </div>

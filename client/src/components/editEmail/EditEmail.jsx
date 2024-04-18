@@ -20,7 +20,7 @@ export const EditEmail = ({ setOpenEditEmail, user, userId }) => {
 
     const mutation = useMutation({
         mutationFn: ({ newEmail, currentPassword, userId }) => {
-          return makeRequest.put(`/users/profile/${userId}`, { newEmail, password: currentPassword });
+          return makeRequest.put(`/users/${userId}`, { newEmail, password: currentPassword });
         },
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["user", userId] });
